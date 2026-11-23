@@ -2,7 +2,6 @@
 // Endpoint URL and key come from repository secrets. Logs print counts only; no feed content is committed.
 import crypto from "node:crypto";
 const FEEDS = {
-  "ext-jandan": "http://feeds2.feedburner.com/jandan",
   "ext-sspai": "http://sspai.me/feed",
   "ext-ifanr": "http://www.ifanr.com/feed",
   "ext-apprcn": "http://free.apprcn.com/feed/",
