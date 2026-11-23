@@ -1,0 +1,28 @@
+name: yt-live
+# Hourly: build the YouTube live list and hand it to a signed endpoint (URL/key from secrets).
+# Logs print counts only; nothing is committed. If this stops, the endpoint rebuilds the list itself.
+on:
+  schedule:
+    - cron: "41 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: yt-live
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: yt_build.mjs
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-node@v4
+        with: { node-version: "20" }
+      - name: Build and push
+        env:
+          YT_URL: ${{ secrets.YT_URL }}
+          YT_PUSH: ${{ secrets.YT_PUSH }}
+        run: node yt_build.mjs
