@@ -2,8 +2,7 @@ name: yt-live
 # Hourly: build the YouTube live list and hand it to a signed endpoint (URL/key from secrets).
 # Logs print counts only; nothing is committed. If this stops, the endpoint rebuilds the list itself.
 on:
-  schedule:
-    - cron: "41 * * * *"
+  # schedule removed 2026-11-23: GitHub schedule never fired here; the status hub dispatches this (workflow_dispatch)
   workflow_dispatch:
 permissions:
   contents: read
