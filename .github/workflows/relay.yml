@@ -1,0 +1,22 @@
+name: relay
+on:
+  schedule:
+    - cron: "17,47 * * * *"   # every 30 min
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: relay
+jobs:
+  relay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "20" }
+      - name: Relay feeds
+        env:
+          PUSH_URL: ${{ secrets.PUSH_URL }}
+          PUSH_KEY: ${{ secrets.PUSH_KEY }}
+        run: node relay.mjs
