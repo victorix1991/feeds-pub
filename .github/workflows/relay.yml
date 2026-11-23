@@ -1,7 +1,6 @@
 name: relay
 on:
-  schedule:
-    - cron: "17 * * * *"   # hourly (KV free plan: 1000 writes/day per account)
+  # schedule removed 2026-11-23: GitHub schedule never fired here; the status hub dispatches this (workflow_dispatch)
   workflow_dispatch:
 permissions:
   contents: read
