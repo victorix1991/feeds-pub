@@ -1,7 +1,7 @@
 name: relay
 on:
   schedule:
-    - cron: "17,47 * * * *"   # every 30 min
+    - cron: "17 * * * *"   # hourly (KV free plan: 1000 writes/day per account)
   workflow_dispatch:
 permissions:
   contents: read
