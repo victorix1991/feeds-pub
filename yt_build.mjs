@@ -210,6 +210,9 @@ const built = await ytlBuild(env);
 const n = (built.m3u.match(/^#EXTINF/gm) || []).length;
 const st = built.stat;
 console.log(`built n=${n} fresh=${st.fresh} kept=${st.kept} missing=${st.missing.length} queries ok=${st.ok}/${st.queries} retried=${st.retried} ${((Date.now() - t0) / 1000).toFixed(1)}s`);
+// 2026-11-28 手改：一次没取到任何频道时不要把空列表推进 KV（会把上一份好数据覆盖掉 70 分钟），
+// 保留旧值并 exit 1，让 hub 看到失败、yt-warm 在 70 分钟后走 Worker 自建兜底。
+if (n === 0) { console.log("no entries, keep previous KV"); process.exit(1); }
 let ps = 0;
 try {
   const p = await signed("POST", "/_push/live", JSON.stringify({ m3u: built.m3u, state: built.state }));
