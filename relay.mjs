@@ -44,4 +44,6 @@ for (const [feed, u] of Object.entries(FEEDS)) {
   } catch (e) { console.log(feed, "fetch fail", String(e.message || e).replace(/https?:\/\/\S+/g, "").slice(0, 60)); }
 }
 console.log(`${ok}/${n} feeds ok`);
-process.exit(ok === n ? 0 : ok ? 0 : 1);
+// 2026-11-28：部分成功也算失败。原来只要有一个推成功就 exit 0，hub 轮询看到的是 success，
+// 某个源连挂几天看板也不会红（yarr 要等副本超 6 小时才自己抓）。要做「尽力而为」就把这里改回 ok ? 0 : 1。
+process.exit(ok === n ? 0 : 1);
